@@ -1,5 +1,6 @@
 const moveerMessage = require('../moveerMessage.js')
 const config = require('../config.js')
+const log = require('./logger.js')
 
 async function connectToDb(message) {
   try {
@@ -8,6 +9,7 @@ async function connectToDb(message) {
       connectionString: config.postgreSQLConnection,
     })
     await client.connect()
+    log.debug('BAZA DE DATE')
     return client
   } catch (err) {
     if (!err.logMessage) console.log(err)

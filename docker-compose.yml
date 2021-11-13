@@ -5,4 +5,4 @@ services:
     environment:
       - TZ=Europe/Stockholm
     restart: unless-stopped
-    container_name: "moveer"
+    container_name: "asmibotsd"

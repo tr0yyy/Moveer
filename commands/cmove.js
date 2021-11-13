@@ -14,6 +14,7 @@ async function move(args, message, rabbitMqChannel) {
     await check.ifTextChannelIsMoveerAdmin(message)
     check.argsLength(args, 1)
     const toVoiceChannel = helper.getChannelByName(message, toVoiceChannelName)
+    console.log(toVoiceChannelName)
     check.ifVoiceChannelExist(message, toVoiceChannel, toVoiceChannelName)
     if (messageMentions.length < 1) messageMentions = await helper.findUserByUserName(message, args)
     check.forUserMentions(message, messageMentions)
@@ -23,7 +24,7 @@ async function move(args, message, rabbitMqChannel) {
     const userIdsToMove = await messageMentions.map(({ id }) => id)
     await check.forMovePerms(message, userIdsToMove, toVoiceChannel)
     await check.forConnectPerms(message, userIdsToMove, toVoiceChannel)
-
+    console.log(userIdsToMove)
     // No errors in the message, lets get moving!
     if (userIdsToMove.length > 0) helper.moveUsers(message, userIdsToMove, toVoiceChannel.id, rabbitMqChannel)
   } catch (err) {

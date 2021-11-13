@@ -45,6 +45,7 @@ client.on('ready', async () => {
   log.info('Startup successful.')
   log.info('Running as user: ' + client.user.username + ' ShardId: (' + client.shard.ids + ')')
   amqp.connect(rabbitMQConnection, (error0, connection) => {
+    console.log('connected to rabbitmq')
     if (error0) {
       moveerMessage.reportMoveerError('Unable to connect to rabbitMQ - @everyone')
       throw error0

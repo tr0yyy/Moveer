@@ -16,6 +16,7 @@ const moveerMessage = require('./moveerMessage.js')
 
 const handleCommand = (command, message, args, rabbitMqChannel) => {
   //if (command === 'say') message.channel.send(args.join(' '))
+  console.log("a ajuns la handler")
   if (command === 'changema')
     message.channel.send(
       'This command has moved, it is now !addma <#channel>.\nReason for this is that we now allow multiple renamed moveeradmin channels.'

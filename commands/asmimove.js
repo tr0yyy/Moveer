@@ -4,27 +4,28 @@ const check = require('../helpers/check.js')
 
 async function move(args, message, rabbitMqChannel) {
   try {
-    const messageMentions = [...message.mentions.users.values()] // Mentions in the message
+    let messageMentions = [...message.mentions.users.values()] // Mentions in the message
     let numberOfMoves = args[0]
-
+    console.log('hello?')
     if (args.join().includes('"')) {
       const names = helper.getNameWithSpacesName(args, message.author.id)
       numberOfMoves = names[0]
     }
     await check.ifTextChannelIsMoveerAdmin(message)
-    check.ifMessageContainsMentions(message)
-    let position = numberOfMoves
+    // check.ifMessageContainsMentions(message)
+    let position = Number(numberOfMoves)
     for (const user of messageMentions) {
       position += 1
+      console.log(position)
       if (position > messageMentions.length) position = 1
-      const toVoiceChannel = await helper.getChannelByName(message, position)
+      const toVoiceChannel = await helper.getChannelByName(message, position.toString())
       check.ifVoiceChannelExist(message, toVoiceChannel, toVoiceChannel)
-      const myUser = await helper.findUserByUserName(message, user)
       check.ifChannelIsTextChannel(message, toVoiceChannel)
-      const userIdToMove = await myUser.map(({ id }) => id)
+      var userIdToMove = []
+      userIdToMove.push(user.id)
       await check.forMovePerms(message, userIdToMove, toVoiceChannel)
       await check.forConnectPerms(message, userIdToMove, toVoiceChannel)
-
+      console.log(userIdToMove)
       // No errors in the message, lets get moving!
       if (userIdToMove.length > 0) helper.moveUsers(message, userIdToMove, toVoiceChannel.id, rabbitMqChannel)
     }
